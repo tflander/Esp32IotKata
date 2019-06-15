@@ -6,9 +6,7 @@ Most modern programming language have a REPL.  This allows programmers to evalua
 
 The purpose of this kata is to verify your setup for a known good circuit.  You will connect to the device and flip LEDs on and off.
 
-No programming is necessary for this kata.  You will connect to the REPL via USB, upload the program main.py, then run commands to turn the LEDs on and off.
-
-There is nothing interesting in the solutions folder for this kata.
+No programming is necessary for this kata, but there is an optional bonus exercise.  You will connect to the REPL via USB, upload the program main.py, then run commands to turn the LEDs on and off.
 
 I have the pycom extension in Visual Studio Code to make uploading to the ESP32 easy.  It also gives me a terminal for the REPL on-chip.
 
@@ -33,3 +31,5 @@ To show the content of the main.py file you uploaded, run these commands:
 f = open('main.py')
 f.read()
 f.close()
+
+Bonus:  If you like, modify main.py to flash the LEDs in a loop.  Hint: import the module 'time' to add sleeps. Check the solutions folder if you get stuck.
