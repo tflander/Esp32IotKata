@@ -5,7 +5,7 @@ Start in the 'katas' folder.  If you get stuck, feel free to look at the 'soluti
 
 ## Katas:
 
-- 01.fizzbuzz: Test-drive a simple Python method to verify your have your tools and dependancies together.
-- 02.micropythonRepl: Explore the ESP32 through the MicroPython REPL on-chip.  Requires connected LEDs.
-- 03.testLed: Test-drive a MicroPython program on your computer by mocking hardware.
+- [01.fizzbuzz](https://github.com/tflander/Esp32IotKata/tree/master/katas/01.fizzbuzz): Test-drive a simple Python method to verify your have your tools and dependancies together.
+- [02.micropythonRepl](https://github.com/tflander/Esp32IotKata/tree/master/katas/02.micropythonRepl): Explore the ESP32 through the MicroPython REPL on-chip.  Requires connected LEDs.
+- [03.testLed](https://github.com/tflander/Esp32IotKata/tree/master/katas/03.testLed): Test-drive a MicroPython program on your computer by mocking hardware.
 
