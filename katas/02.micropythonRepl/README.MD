@@ -33,3 +33,12 @@ f.read()
 f.close()
 
 Bonus:  If you like, modify main.py to flash the LEDs in a loop.  Hint: import the module 'time' to add sleeps. Check the solutions folder if you get stuck.
+
+```
+Led forward voltage = 1.5V
+pin voltage = 3.3V
+voltage across resister = 3.3V - 1.5V = 1.8V
+R = 220 Ohms
+I = V/R = 1.8 / 220 = .0082A = 8.2ma
+```
+
