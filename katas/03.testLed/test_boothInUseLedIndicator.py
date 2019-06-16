@@ -32,7 +32,7 @@ def mockRedLedPin():
 def boothInUseLedIndicator(monkeypatch, mockGreenLedPin, mockRedLedPin):
     pass # TODO: delete this line of code
 
-    # The following code is tricky.  First of all, it requires that the production code have an __init__ method 
+    # The following code is tricky.  First of all, it assumes that the production code has an __init__ method 
     # that takes in the GPIO numbers of the red LED pin and the green LED pin.  We don't want to have to open
     # up the code if we decide to build a circuit where the LEDs are wired to different GPIO pins.  For our 
     # circuit, we use GPIO21 for red and GPIO22 for green.  So, we would like to construct our class using this
@@ -40,10 +40,9 @@ def boothInUseLedIndicator(monkeypatch, mockGreenLedPin, mockRedLedPin):
     #
     # boothInUseLedIndicator = BoothInUseLedIndicator(redLedPin=21, greenLedPin=22)
 
-    # TODO: uncomment the following block.  Make green by adding an __init__() method to set the green and red pin
-    # note that we expect the attributes "greenLed" and "redLed" on the class, which will be of type machine.Pin
-    # (just like our mocks in the above fixtures)
-
+    # TODO: uncomment the following block.  We would like this code to fail, since the production class does
+    # not yet have an __init__ method, greenLed attribute, nor redLed attribute.  This code works, because you 
+    # can always monkeypatch new methods or attributes in existing classes and objects.
     # with patch.object(BoothInUseLedIndicator, "__init__", lambda slf, redPin, greenPin: None):
     #     boothInUseLedIndicator = BoothInUseLedIndicator(None, None)
     #     boothInUseLedIndicator.greenLed = mockGreenLedPin
@@ -53,8 +52,29 @@ def boothInUseLedIndicator(monkeypatch, mockGreenLedPin, mockRedLedPin):
 ### Step three: test drive the behavior of boothInUseLedIndicator.
 class TestPinTransitions(object):
 
+    # Note: this is a really stupid test, but I've provided it as a clue to writing the BoothInUseLedIndicator
+    # class.  The above monkeypatching code for the boothInUseLedIndicator fixture provides the same clues,
+    # but the code doesn't fail, so I'm providing a test that will fail until the prodution code is stubbed
+    # with the necessary attributes and classes
+    def test_hasExpectedAttributesAndMethods(self):
+        pass
+        # realBoothIndicator = BoothInUseLedIndicator(redLedPin=1, greenLedPin=2)
+
+        # def attributeExists(attributeName, expectedType):
+        #     attr = getattr(realBoothIndicator, attributeName)
+        #     return hasattr(realBoothIndicator, attributeName) and not callable(attr) and isinstance(attr, machine.Pin)
+
+        # def methodExists(methodName):
+        #     return hasattr(realBoothIndicator, methodName) and callable(getattr(realBoothIndicator, methodName))
+
+        # assert attributeExists('greenLed', machine.Pin)
+        # assert attributeExists('redLed', machine.Pin)
+        # assert methodExists('setOccupied')
+        # assert methodExists('setAvailable')
+
     def test_whenOccupiedThenTurnRedOnAndTurnGreenOff(self, monkeypatch, boothInUseLedIndicator, mockGreenLedPin, mockRedLedPin):
         pass
+        # hint: methods on mocks have a method 'assert_called()'.  Be sure to call it on the method (don't call the method)
 
 
     def test_whenAvailableThenTurnRedOffAndTurnGreenOn(self, monkeypatch, boothInUseLedIndicator, mockGreenLedPin, mockRedLedPin):
