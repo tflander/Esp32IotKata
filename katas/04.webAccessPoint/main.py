@@ -3,7 +3,7 @@ import socket
 
 ap = createAccessPoint("ESP32 Network")
 print(ap.ifconfig()) # address is always 192.168.4.1 (I think)
-socket = bindHttpLocalHost()
+serverSocket = bindHttpLocalHost()
 
 html = """<!DOCTYPE html>
 <html>
@@ -15,14 +15,15 @@ html = """<!DOCTYPE html>
 """
 
 def clearSocket(cl):
-    cl_file = cl.makefile('rwb', 0)
+    cl_file = cl.makefile('rwb', 0) # type is socket
     while True:
         line = cl_file.readline()
+        print("line", line.decode('utf-8'))
         if not line or line == b'\r\n':
             break
 
 while True:
-    cl, addr = socket.accept()
+    cl, addr = serverSocket.accept()
     print('client connected from', addr)
 
     clearSocket(cl)
