@@ -19,26 +19,6 @@ except:
 ### Step three: test drive the behavior of boothInUseLedIndicator.
 class TestPinTransitions(object):
 
-    # Note: this is a really stupid test, but I've provided it as a clue to writing the BoothInUseLedIndicator
-    # class.  The above monkeypatching code for the boothInUseLedIndicator fixture provides the same clues,
-    # but the code doesn't fail, so I'm providing a test that will fail until the prodution code is stubbed
-    # with the necessary attributes and classes
-    def test_hasExpectedAttributesAndMethods(self):
-        pass
-        # realBoothIndicator = BoothInUseLedIndicator(redLedPin=1, greenLedPin=2)
-
-        # def attributeExists(attributeName, expectedType):
-        #     attr = getattr(realBoothIndicator, attributeName)
-        #     return hasattr(realBoothIndicator, attributeName) and not callable(attr) and isinstance(attr, machine.Pin)
-
-        # def methodExists(methodName):
-        #     return hasattr(realBoothIndicator, methodName) and callable(getattr(realBoothIndicator, methodName))
-
-        # assert attributeExists('greenLed', machine.Pin)
-        # assert attributeExists('redLed', machine.Pin)
-        # assert methodExists('setOccupied')
-        # assert methodExists('setAvailable')
-
     def test_whenOccupiedThenTurnRedOnAndTurnGreenOff(self):
         pass
         # hint: look at the machine_stub.py file to see how you can assert on the pin states
