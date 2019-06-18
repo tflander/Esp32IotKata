@@ -91,6 +91,6 @@ def debug(req, resp):
     yield from resp.awrite("Distance = {} cm; isOccupied = {}; candidateStateChangeCount = {}".format(str(distance), isOccupied, candidateStateChangeCount))
 
 import logging
-log = logging.getLogger("my-logger")
+log = logging.getLogger(__name__)
 
 app.run(debug=True, host = ifconfig[0], log=log)
