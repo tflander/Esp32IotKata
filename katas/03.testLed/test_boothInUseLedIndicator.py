@@ -8,7 +8,7 @@ from mock import Mock, patch
 try:
     import machine
 except:
-    from machine_stub import machine
+    from machine_emulator import machine
 
 # Note: since this is a test that always runs off-chip, I know that I always want machine_stub.  The try/except
 # is a hint for writing the production code.
