@@ -1,29 +1,7 @@
-I’m hoping to avoid test-driving a bunch of socket code for implementing an HTTP server
+Let's do an exercise that is a big part of what we do as professional software engineers.  We take cryptic (crappy) code that is difficult to understand and difficult to extend, and we clean it.
 
-Need WEP password for wifi-IoT so I can run upip
--- or just connect as The Forge
+The truth is that I was tired of MicroPython spikes and learning Python TDD, and wanted to cobble together a working solution for the phonebooth in-use detector.  Since this is a pretty simple problem, I could probably get away with releasing crappy code.  Imagine this detector was just one part of a factory automation problem.  Imagine we needed the ability to extend the code for new machines, new lines, and product change-over.  Imagine my 100 line crappy program was now 10,000 lines of crappy code.  Imagine I needed to train someone to maintain 10,000 lines of crappy code.  Imagine the plant manager expected that we were able to make changes quickly and safely.
 
-https://techtutorialsx.com/2017/09/01/esp32-micropython-http-webserver-with-picoweb/
+I'll put my solution in the solutions folder, but you may end up with something quite different.  Make sure you don't break the code as you clean and test protect it.
 
-import upip
-upip.install('picoweb')
-
-import picoweb
-app = picoweb.WebApp(__name__)
-
-@app.route("/")
-def index(req, resp):
-    yield from picoweb.start_response(resp)
-    yield from resp.awrite("Hello world from picoweb running on the ESP32")
-
-
-ImportError: no module named 'ulogging'
-upip.install('ulogging')
-
-Error installing 'ulogging': Package not found, packages may be partially installed
-
-upip.install(‘micropython-logging’)
-upip.install('logging')
-
-import logging
-log = logging.getLogger("my-logger")
+I may defer test protecting the picoweb code.  We will see what happens.
