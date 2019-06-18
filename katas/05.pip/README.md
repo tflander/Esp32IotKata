@@ -15,7 +15,7 @@ Installing to: /lib/
 Error installing 'picoweb': list index out of range, packages may be partially installed
 ```
 
-We need to put the ESP32 in station mode.  For convience, I created a boot.by program here to make connecting to a router via a WEP password easy.
+We need to put the ESP32 in station mode.  For convience, I created a `boot.py` program here to make connecting to a router via a WEP password easy.
 
 Upload this project to your ESP32 to enable the ability to run the following commands
 
@@ -23,7 +23,7 @@ Upload this project to your ESP32 to enable the ability to run the following com
 wifiConnect('TheForge, <password for TheForge>)
 ```
 
-Now when you re-run the command upip.install('picoweb'), you get the following:
+Now when you re-run the command `upip.install('picoweb')`, you get the following:
 
 ```
 Warning: micropython.org SSL certificate is not validated
