@@ -1,4 +1,7 @@
-import network, socket
+try:
+    import network, socket
+except:
+    print('ESP32 modules not found')
 
 def wifiConnect(ssid, password):
     sta_if = network.WLAN(network.STA_IF)

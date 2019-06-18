@@ -1,7 +1,7 @@
 try:
     import machine
 except:
-    from machine_stub import machine
+    from machine_emulator import machine
 
 class BoothInUseLedIndicator:
 

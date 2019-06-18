@@ -7,3 +7,9 @@
 low-level networking code - functions `wifiConnect()`, `apConnect()`, `startListener()` - I'm going to just move them to `boot.py` for now.  It seems this is boilerplate code that doesn't belong in `main.py`.
 
 The code for the green and red led is the same code that we test-drove in a previous kata.  Let's re-use the test-driven code and delete the duplication.
+
+The function `measureDistance()` is doing a lot.  It potentially uses the timer, handles global data from the main thread, reads the sensor, handles re-try logic, decides if we might have a state change (occupied to available or available to occupied), decides if the state change is real, and flips the LEDs if the state change is real.  Let's break it up and see what we get.  Once we have a bunch of small pieces of logic, we can decide how we want to put the logic together.
+
+First, let's separate the timer lambda definition from the function that does stuff.
+
+Now, let's test-drive a class that detects if the state of the booth changed.  Most of the code will move to this class.

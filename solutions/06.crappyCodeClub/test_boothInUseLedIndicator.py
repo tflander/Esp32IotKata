@@ -1,5 +1,5 @@
 import pytest
-from machine_stub import machine
+from machine_emulator import machine
 
 from boothInUseLedIndicator import BoothInUseLedIndicator
 

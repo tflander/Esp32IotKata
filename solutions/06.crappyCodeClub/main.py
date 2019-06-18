@@ -1,8 +1,14 @@
 from boothInUseLedIndicator import BoothInUseLedIndicator
-# import network
-# import socket
-import machine
-import picoweb
+from boot import apConnect, startListener
+try:
+    import machine
+except:
+    from machine_emulator import machine
+
+try:
+    import picoweb
+except:
+    print('picoweb module not found')
 
 from hcsr04 import HCSR04
 
@@ -24,6 +30,9 @@ candidateStateChangeCount = 0
 
 boothInUseLedIndicator = BoothInUseLedIndicator(redLedPin = 21, greenLedPin = 22)
 def measureDistance(timer):
+    handleStateChangeIfNecessary()
+
+def handleStateChangeIfNecessary():
     global distance, isOccupied, candidateStateChangeCount, boothInUseLedIndicator
     candidateDistance = -1
     while candidateDistance < 0 or candidateDistance > EXPECTED_DISTANCE_CM + DISTANCE_TOLERANCE_CM:
