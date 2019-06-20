@@ -12,4 +12,8 @@ The function `measureDistance()` is doing a lot.  It potentially uses the timer,
 
 First, let's separate the timer lambda definition from the function that does stuff.
 
-Now, let's test-drive a class that detects if the state of the booth changed.  Most of the code will move to this class.
+Now, let's test-drive a class that detects if the state of the booth changed.  Most of the code will move to this class.  
+
+On second thought, that's too big.  Lets make a class that wraps the sonar detector and detects if it sees the back of the wall.  It will take multiple readings to make sure it got the answer right.
+
+Whoops!  Still too big.  We need to be able to set expectations on the hcsr04 sonar detector.  The code I downloaded from the internet doesn't even compile.  Time to do the work I was trying to avoid and make a hcrsr04 detector that can be emulated in tests.

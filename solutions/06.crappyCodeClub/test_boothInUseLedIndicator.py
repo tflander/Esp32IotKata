@@ -1,5 +1,5 @@
 import pytest
-from machine_emulator import machine
+import machine
 
 from boothInUseLedIndicator import BoothInUseLedIndicator
 
@@ -14,11 +14,11 @@ class TestPinTransitions(object):
     def test_whenOccupiedThenTurnRedOnAndTurnGreenOff(self):
         boothInUseLedIndicator = BoothInUseLedIndicator(redLedPin=1, greenLedPin=2)
         boothInUseLedIndicator.setOccupied()
-        assert boothInUseLedIndicator.greenLed.currentState == "off"
-        assert boothInUseLedIndicator.redLed.currentState == "on"
+        assert boothInUseLedIndicator.greenLed.currentState == 0
+        assert boothInUseLedIndicator.redLed.currentState == 1
 
     def test_whenAvailableThenTurnRedOffAndTurnGreenOn(self):
         boothInUseLedIndicator = BoothInUseLedIndicator(redLedPin=1, greenLedPin=2)
-        boothInUseLedIndicator.setOccupied()
-        assert boothInUseLedIndicator.greenLed.currentState == "off"
-        assert boothInUseLedIndicator.redLed.currentState == "on"
+        boothInUseLedIndicator.setAvailable()
+        assert boothInUseLedIndicator.greenLed.currentState == 1
+        assert boothInUseLedIndicator.redLed.currentState == 0
