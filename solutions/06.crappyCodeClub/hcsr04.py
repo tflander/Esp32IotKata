@@ -9,7 +9,7 @@ def sleep_us(delayUs):
     try:
         time.sleep_us(delayUs)
     except:
-        assert machine.TEST_MODE
+        assert machine.EMULATION_MODE
 
 class HCSR04:
     """

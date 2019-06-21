@@ -1,9 +1,22 @@
-TEST_MODE = True
+"""
+The purpose of this module is to emulate the machine module of the ESP32 chip.  The primary reason to 
+emulate the chip is for test-driving code (TDD).
+
+Firmware version: esp32-20190610-v1.11-37-g62f004ba4
+"""
+EMULATION_MODE = True
+
+__version__ = '0.0.0'
+__author__ = 'Todd Flanders https://github.com/tflander/Esp32IotKata'
+__license__ = "Apache License 2.0. https://www.apache.org/licenses/LICENSE-2.0"
 
 expectedPulseTimeForTesting = 0
+expectedPulseTimeErrorForTesting = None
 
-# pulse_time = machine.time_pulse_us(self.echo, 1, self.echo_timeout_us)
-def time_pulse_us(echoPin, one, echo_timeout_us):
+# TODO: understand unknownParameter
+def time_pulse_us(echoPin, unknownParameter, echo_timeout_us):
+    if expectedPulseTimeErrorForTesting is not None:
+        raise expectedPulseTimeErrorForTesting
     return expectedPulseTimeForTesting
 
 class Pin:
