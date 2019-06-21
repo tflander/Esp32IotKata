@@ -13,8 +13,14 @@ __license__ = "Apache License 2.0. https://www.apache.org/licenses/LICENSE-2.0"
 expectedPulseTimeForTesting = 0
 expectedPulseTimeErrorForTesting = None
 
+def resetExpectationsForTesting():
+    global expectedPulseTimeForTesting, expectedPulseTimeErrorForTesting
+    expectedPulseTimeForTesting = 0
+    expectedPulseTimeErrorForTesting = None
+
 # TODO: understand unknownParameter
 def time_pulse_us(echoPin, unknownParameter, echo_timeout_us):
+    global expectedPulseTimeErrorForTesting
     if expectedPulseTimeErrorForTesting is not None:
         raise expectedPulseTimeErrorForTesting
     return expectedPulseTimeForTesting

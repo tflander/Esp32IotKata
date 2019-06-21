@@ -1,5 +1,6 @@
 from sonarBoothWallDetector import SonarBoothWallDetector
 import pytest
+import machine
 
 EXPECTED_DISTANCE_CM = 77
 DISTANCE_TOLERANCE_CM = 10
@@ -9,15 +10,56 @@ echo_pin=15
 
 class TestSonarBoothWallDetector:
 
-    def test_initalStateIsAvailable(self):
-        detector = SonarBoothWallDetector(trigger_pin, echo_pin, EXPECTED_DISTANCE_CM, DISTANCE_TOLERANCE_CM, NUM_READS_TO_CHANGE_STATE)
-        assert detector.isAvalable
+    detector = SonarBoothWallDetector(trigger_pin, echo_pin, EXPECTED_DISTANCE_CM, DISTANCE_TOLERANCE_CM, NUM_READS_TO_CHANGE_STATE)
 
-    @pytest.mark.skip(reason="need to test drive hcsr04.py to flesh out expectaton setting")
+    def test_WhenWallFoundExactThenBoothIsAvailable(self):
+        machine.resetExpectationsForTesting()
+        machine.expectedPulseTimeForTesting = expectedPulsesForCm(EXPECTED_DISTANCE_CM)
+
+        assert self.detector.isAvailable()
+        assert self.detector.error == None
+
     def test_WhenWallBlockedByPersonThenBoothIsInUse(self):
-        detector = SonarBoothWallDetector(trigger_pin, echo_pin, EXPECTED_DISTANCE_CM, DISTANCE_TOLERANCE_CM, NUM_READS_TO_CHANGE_STATE)
+        machine.resetExpectationsForTesting()
+        machine.expectedPulseTimeForTesting = expectedPulsesForCm(10)
 
-        sonar = detector.sonar
-        print(sonar)
-        
-        assert not detector.isAvalable        
+        assert not self.detector.isAvailable()
+        assert self.detector.error == None
+
+    def test_WhenWallFoundWithinLowTolerance(self):
+        machine.resetExpectationsForTesting()
+        machine.expectedPulseTimeForTesting = expectedPulsesForCm(EXPECTED_DISTANCE_CM - DISTANCE_TOLERANCE_CM)
+
+        assert self.detector.isAvailable()
+        assert self.detector.error == None
+
+    def test_WhenPersonFoundWithinLowTolerance(self):
+        machine.resetExpectationsForTesting()
+        machine.expectedPulseTimeForTesting = expectedPulsesForCm(EXPECTED_DISTANCE_CM - DISTANCE_TOLERANCE_CM - 1)
+
+        assert not self.detector.isAvailable()
+        assert self.detector.error == None
+
+    def test_WhenWallFoundWithinHighTolerance(self):
+        machine.resetExpectationsForTesting()
+        machine.expectedPulseTimeForTesting = expectedPulsesForCm(EXPECTED_DISTANCE_CM + DISTANCE_TOLERANCE_CM)
+
+        assert self.detector.isAvailable()
+        assert self.detector.error == None
+
+    def test_WhenObjectFoundOutsideHighTolerance(self):
+        machine.resetExpectationsForTesting()
+        machine.expectedPulseTimeForTesting = expectedPulsesForCm(EXPECTED_DISTANCE_CM + DISTANCE_TOLERANCE_CM + 1)
+
+        assert not self.detector.isAvailable()
+        assert self.detector.error == "object out of range"
+
+    def test_WhenSonarScanError(self):
+        machine.resetExpectationsForTesting()
+        machine.expectedPulseTimeErrorForTesting = OSError(110)
+
+        assert not self.detector.isAvailable()
+        assert self.detector.error == "Out of sonar range"
+
+def expectedPulsesForCm(cm):
+    return int(round(cm * 58.2))
