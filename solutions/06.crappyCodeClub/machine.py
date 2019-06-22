@@ -19,8 +19,7 @@ def resetExpectationsForTesting():
     expectedPulseTimeForTesting = 0
     expectedPulseTimeErrorForTesting = None
 
-# TODO: understand unknownParameter
-def time_pulse_us(echoPin, unknownParameter, echo_timeout_us):
+def time_pulse_us(pin, pulse_level, timeout_us):
     global expectedPulseTimeErrorForTesting
     if expectedPulseTimeErrorForTesting is not None:
         raise expectedPulseTimeErrorForTesting
