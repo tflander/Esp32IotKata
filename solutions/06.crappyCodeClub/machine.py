@@ -4,6 +4,7 @@ emulate the chip is for test-driving code (TDD).
 
 Firmware version: esp32-20190610-v1.11-37-g62f004ba4
 """
+import time
 EMULATION_MODE = True
 
 __version__ = '0.0.0'
@@ -24,6 +25,11 @@ def time_pulse_us(echoPin, unknownParameter, echo_timeout_us):
     if expectedPulseTimeErrorForTesting is not None:
         raise expectedPulseTimeErrorForTesting
     return expectedPulseTimeForTesting
+
+def sleep_us(delayUs):
+    pass
+
+time.sleep_us = sleep_us
 
 class Pin:
     IN = "in"

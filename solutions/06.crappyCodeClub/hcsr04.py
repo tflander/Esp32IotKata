@@ -5,11 +5,11 @@ __version__ = '0.2.0'
 __author__ = 'Roberto Sánchez'
 __license__ = "Apache License 2.0. https://www.apache.org/licenses/LICENSE-2.0"
 
-def sleep_us(delayUs):
-    try:
-        time.sleep_us(delayUs)
-    except:
-        assert machine.EMULATION_MODE
+# def sleep_us(delayUs):
+#     try:
+#         time.sleep_us(delayUs)
+#     except:
+#         assert machine.EMULATION_MODE
 
 class HCSR04:
     """
@@ -41,10 +41,10 @@ class HCSR04:
         We use the method `machine.time_pulse_us()` to get the microseconds until the echo is received.
         """
         self.trigger.value(0) # Stabilize the sensor
-        sleep_us(5)
+        machine.sleep_us(5)
         self.trigger.value(1)
         # Send a 10us pulse.
-        sleep_us(10)
+        machine.sleep_us(10)
         self.trigger.value(0)
         try:
             pulse_time = machine.time_pulse_us(self.echo, 1, self.echo_timeout_us)
