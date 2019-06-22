@@ -5,7 +5,6 @@ from boothInUseLedIndicator import BoothInUseLedIndicator
 
 class TestPinTransitions(object):
 
-    # TODO: do I really need this test?
     def test_pinValuesSetOnInit(self):
         boothInUseLedIndicator = BoothInUseLedIndicator(redLedPin=1, greenLedPin=2)
         assert boothInUseLedIndicator.redLed.pinForTesting == 1

@@ -41,11 +41,9 @@ class Pin:
         self.pinForTesting = pin
 
     def on(self):
-        # self.currentState = "on"
         self.currentState = 1
 
     def off(self):
-        # self.currentState = "off"
         self.currentState = 0
 
     def value(self, newValue=None):

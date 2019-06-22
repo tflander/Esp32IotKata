@@ -4,13 +4,12 @@ import machine
 
 EXPECTED_DISTANCE_CM = 77
 DISTANCE_TOLERANCE_CM = 10
-NUM_READS_TO_CHANGE_STATE = 3
 trigger_pin=2
 echo_pin=15
 
 class TestSonarBoothWallDetector:
 
-    detector = SonarBoothWallDetector(trigger_pin, echo_pin, EXPECTED_DISTANCE_CM, DISTANCE_TOLERANCE_CM, NUM_READS_TO_CHANGE_STATE)
+    detector = SonarBoothWallDetector(trigger_pin, echo_pin, EXPECTED_DISTANCE_CM, DISTANCE_TOLERANCE_CM)
 
     def test_WhenWallFoundExactThenBoothIsAvailable(self):
         machine.resetExpectationsForTesting()

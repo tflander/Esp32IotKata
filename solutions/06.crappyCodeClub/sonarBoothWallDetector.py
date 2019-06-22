@@ -7,7 +7,7 @@ class SonarBoothWallDetector:
     distanceTolerance = 0
     error = None
     
-    def __init__(self, trigger_pin, echo_pin, expectedDistanceCm, distanceTolerance, numReadsToChangeState):
+    def __init__(self, trigger_pin, echo_pin, expectedDistanceCm, distanceTolerance):
         self.sonar = HCSR04(trigger_pin, echo_pin)
         self.expectedDistanceCm = expectedDistanceCm
         self.distanceTolerance = distanceTolerance
