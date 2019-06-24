@@ -1,5 +1,4 @@
 import pytest
-from mock import Mock, patch
 from connectAccessPoint import createAccessPoint, bindHttpLocalHost
 from network_stub import network
 from socket_stub import socket
