@@ -33,11 +33,11 @@ class TestBoothAvailability:
         assert not boothInUseDetector.isAvailable()
 
     def test_boothDetectorCreatesObjectDetector(self, boothInUseDetector):
-        assert boothInUseDetector.expectedDistanceCm == EXPECTED_DISTANCE_CM
-        assert boothInUseDetector.distanceTolerance == DISTANCE_TOLERANCE
         assert boothInUseDetector.retriesToChangeState == RETRIES_TO_CHANGE_STATE
         assert boothInUseDetector.sampleIntervalMs == SAMPLE_INTERVAL_MS
         assert not boothInUseDetector.objectDetector == None
+        assert boothInUseDetector.objectDetector.expectedDistanceCm == EXPECTED_DISTANCE_CM
+        assert boothInUseDetector.objectDetector.distanceTolerance == DISTANCE_TOLERANCE
         sonar = boothInUseDetector.objectDetector.sonar
         assert sonar.trigger.pinForTesting == TRIGGER_PIN
         assert sonar.echo.pinForTesting == ECHO_PIN
