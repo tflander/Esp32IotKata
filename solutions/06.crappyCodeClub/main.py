@@ -1,10 +1,9 @@
 from boothInUseLedIndicator import BoothInUseLedIndicator
 from boot import apConnect, startListener
-# try:
-#     import machine
-# except:
-#     from machine_emulator import machine
-import machine
+try:
+    import machine
+except:
+    from machine_emulator import machine
 
 try:
     import picoweb
@@ -64,7 +63,7 @@ def handleStateChangeIfNecessary():
         boothInUseLedIndicator.setAvailable()
 
 distanceTimer = machine.Timer(0)  
-# distanceTimer.init(period=1000, mode=machine.Timer.PERIODIC, callback=measureDistance)
+distanceTimer.init(period=1000, mode=machine.Timer.PERIODIC, callback=measureDistance)
 
 @app.route("/")
 def index(req, resp):
@@ -81,15 +80,11 @@ globalResp = None
 @app.route("/sandbox")
 def sandbox(req, resp):
 
-# >>> globalReq
-# <picoweb.HTTPRequest object at 3ffc8ef0>
-# >>> globalResp
-# <StreamWriter <socket>>
+    # >>> req
+    # <picoweb.HTTPRequest object at 3ffc8ef0>
+    # >>> resp
+    # <uasyncio.StreamWriter <socket>>
 
-    global globalReq
-    globalReq = req
-    global globalResp
-    globalResp = resp
     yield from picoweb.start_response(resp)
     yield from resp.awrite("req = {}; resp = {}".format(req.__class__, resp.__class__))
 

@@ -1,6 +1,6 @@
 from hcsr04 import HCSR04
 
-class SonarBoothWallDetector:
+class SonarBoothObjectDetector:
     
     sonar = None
     expectedDistanceCm = -1
@@ -12,7 +12,7 @@ class SonarBoothWallDetector:
         self.expectedDistanceCm = expectedDistanceCm
         self.distanceTolerance = distanceTolerance
 
-    def isAvailable(self):
+    def isObjectDetected(self):
 
         try:
             distanceCm = int(round(self.sonar.distance_cm()))

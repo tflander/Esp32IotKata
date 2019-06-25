@@ -1,5 +1,8 @@
 from hcsr04 import HCSR04
-import machine
+try:
+    import machine
+except:
+    import esp32_machine_emulator.machine as machine
 
 class TestHCSR04:
 

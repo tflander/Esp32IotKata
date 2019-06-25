@@ -1,15 +1,14 @@
-import machine, time
-from machine import Pin
+import time
+try:
+    import machine
+    from machine import Pin
+except:
+    import esp32_machine_emulator.machine as machine
+    from esp32_machine_emulator.machine import Pin
 
 __version__ = '0.2.0'
 __author__ = 'Roberto Sánchez'
 __license__ = "Apache License 2.0. https://www.apache.org/licenses/LICENSE-2.0"
-
-# def sleep_us(delayUs):
-#     try:
-#         time.sleep_us(delayUs)
-#     except:
-#         assert machine.EMULATION_MODE
 
 class HCSR04:
     """

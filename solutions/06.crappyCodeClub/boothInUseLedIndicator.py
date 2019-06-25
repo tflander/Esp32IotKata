@@ -1,7 +1,7 @@
 try:
     import machine
 except:
-    from machine_emulator import machine
+    import esp32_machine_emulator.machine as machine
 
 class BoothInUseLedIndicator:
 
