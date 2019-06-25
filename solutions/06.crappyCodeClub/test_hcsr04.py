@@ -19,6 +19,6 @@ class TestHCSR04:
 
         try:
             sensor.distance_cm()
-            assert False # Expected error
+            assert False,  "Expected error raised from distance_cm"
         except OSError as ex:
             assert ex.args[0] == 'Out of range'
