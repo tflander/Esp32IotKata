@@ -3,8 +3,10 @@ try:
     import machine
     from machine import Pin
 except:
-    import esp32_machine_emulator.machine as machine
-    from esp32_machine_emulator.machine import Pin
+    import sys
+    if not sys.platform == 'esp32':
+        import esp32_machine_emulator.machine as machine
+        from esp32_machine_emulator.machine import Pin
 
 __version__ = '0.2.0'
 __author__ = 'Roberto Sánchez'
@@ -40,10 +42,10 @@ class HCSR04:
         We use the method `machine.time_pulse_us()` to get the microseconds until the echo is received.
         """
         self.trigger.value(0) # Stabilize the sensor
-        machine.sleep_us(5)
+        time.sleep_us(5)
         self.trigger.value(1)
         # Send a 10us pulse.
-        machine.sleep_us(10)
+        time.sleep_us(10)
         self.trigger.value(0)
         try:
             pulse_time = machine.time_pulse_us(self.echo, 1, self.echo_timeout_us)
