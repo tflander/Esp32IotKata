@@ -56,5 +56,8 @@ class TestSonarBoothObjectDetector:
         assert not detector.isObjectDetected()
         assert detector.error == "Out of sonar range"
 
+    def test_VerifyErrorStateWhenDetectorNotCalled(self, detector):
+        assert detector.error == None
+
 def expectedPulsesForCm(cm):
     return int(round(cm * 58.2))

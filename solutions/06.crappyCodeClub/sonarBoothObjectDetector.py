@@ -1,16 +1,12 @@
 from hcsr04 import HCSR04
 
 class SonarBoothObjectDetector:
-    
-    sonar = None
-    expectedDistanceCm = -1
-    distanceTolerance = 0
-    error = None
-    
+        
     def __init__(self, trigger_pin, echo_pin, expectedDistanceCm, distanceTolerance):
         self.sonar = HCSR04(trigger_pin, echo_pin)
         self.expectedDistanceCm = expectedDistanceCm
         self.distanceTolerance = distanceTolerance
+        self.error = None
 
     def isObjectDetected(self):
 
