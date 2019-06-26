@@ -32,14 +32,14 @@ class TestBoothAvailability:
         sampleAllExpected(boothInUseDetector, samples)
         assert not boothInUseDetector.isAvailable()
 
-    def test_boothDetectorCreatesObjectDetector(self, boothInUseDetector):
+    def test_boothDetectorInit(self, boothInUseDetector):
         assert boothInUseDetector.retriesToChangeState == RETRIES_TO_CHANGE_STATE
-        assert not boothInUseDetector.objectDetector == None
-        assert boothInUseDetector.objectDetector.expectedDistanceCm == EXPECTED_DISTANCE_CM
-        assert boothInUseDetector.objectDetector.distanceTolerance == DISTANCE_TOLERANCE
-        sonar = boothInUseDetector.objectDetector.sonar
+        assert boothInUseDetector.expectedDistanceCm == EXPECTED_DISTANCE_CM
+        assert boothInUseDetector.distanceTolerance == DISTANCE_TOLERANCE_CM
+        sonar = boothInUseDetector.sonar
         assert sonar.trigger.pinForTesting == TRIGGER_PIN
         assert sonar.echo.pinForTesting == ECHO_PIN
+        # TODO: test if anything missing
 
 
 class TestSonarSampling:
@@ -54,6 +54,55 @@ class TestSonarSampling:
         candidateAvailabilityState = boothInUseDetector.sample()
         assert not candidateAvailabilityState
 
+class TestSingleScan:
+
+    def test_WhenWallFoundExactThenBoothIsAvailable(self, boothInUseDetector):
+        machine.expectedPulseTimeForTesting = expectedPulsesForCm(EXPECTED_DISTANCE_CM)
+
+        assert boothInUseDetector.singleScan()
+        assert boothInUseDetector.error == None
+
+    def test_WhenWallBlockedByPersonThenBoothIsInUse(self, boothInUseDetector):
+        machine.resetExpectationsForTesting()
+        machine.expectedPulseTimeForTesting = expectedPulsesForCm(2)
+
+        assert not boothInUseDetector.singleScan()
+        assert boothInUseDetector.error == None
+
+    def test_WhenWallFoundWithinLowTolerance(self, boothInUseDetector):
+        machine.expectedPulseTimeForTesting = expectedPulsesForCm(EXPECTED_DISTANCE_CM - DISTANCE_TOLERANCE_CM)
+
+        assert boothInUseDetector.singleScan()
+        assert boothInUseDetector.error == None
+
+    def test_WhenPersonFoundWithinLowTolerance(self, boothInUseDetector):
+        machine.expectedPulseTimeForTesting = expectedPulsesForCm(EXPECTED_DISTANCE_CM - DISTANCE_TOLERANCE_CM - 1)
+
+        assert not boothInUseDetector.singleScan()
+        assert boothInUseDetector.error == None
+
+    def test_WhenWallFoundWithinHighTolerance(self, boothInUseDetector):
+        machine.expectedPulseTimeForTesting = expectedPulsesForCm(EXPECTED_DISTANCE_CM + DISTANCE_TOLERANCE_CM)
+
+        assert boothInUseDetector.singleScan()
+        assert boothInUseDetector.error == None
+
+    def test_WhenObjectFoundOutsideHighTolerance(self, boothInUseDetector):
+        machine.expectedPulseTimeForTesting = expectedPulsesForCm(EXPECTED_DISTANCE_CM + DISTANCE_TOLERANCE_CM + 1)
+
+        assert not boothInUseDetector.singleScan()
+        assert boothInUseDetector.error == "object out of range"
+
+    def test_WhenSonarScanError(self, boothInUseDetector):
+        machine.expectedPulseTimeErrorForTesting = OSError(110)
+
+        assert not boothInUseDetector.singleScan()
+        assert boothInUseDetector.error == "Out of sonar range"
+
+    def test_VerifyErrorStateWhenDetectorNotCalled(self, boothInUseDetector):
+        assert boothInUseDetector.error == None
+
+    
 def sampleAllExpected(boothInUseDetector, samples):
     machine.expectedPulseTimeForTesting = samples
     while len(machine.expectedPulseTimeForTesting) > 0:
@@ -69,12 +118,12 @@ def expectedPulsesForCm(cm):
 TRIGGER_PIN=1
 ECHO_PIN=2
 EXPECTED_DISTANCE_CM=10
-DISTANCE_TOLERANCE = 3
+DISTANCE_TOLERANCE_CM = 3
 RETRIES_TO_CHANGE_STATE = 4
 SAMPLE_INTERVAL_MS = 300
 
 pulseValueWhenWallFound = expectedPulsesForCm(EXPECTED_DISTANCE_CM)
-pulseValueWhenPersonFound = expectedPulsesForCm(EXPECTED_DISTANCE_CM - DISTANCE_TOLERANCE - 1)
+pulseValueWhenPersonFound = expectedPulsesForCm(EXPECTED_DISTANCE_CM - DISTANCE_TOLERANCE_CM - 1)
 
 @pytest.fixture
 def boothInUseDetector():
@@ -82,6 +131,6 @@ def boothInUseDetector():
         trigger_pin = TRIGGER_PIN, 
         echo_pin = ECHO_PIN, 
         expectedDistanceCm = EXPECTED_DISTANCE_CM, 
-        distanceTolerance = DISTANCE_TOLERANCE, 
+        distanceTolerance = DISTANCE_TOLERANCE_CM, 
         retriesToChangeState = RETRIES_TO_CHANGE_STATE
     )

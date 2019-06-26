@@ -1,12 +1,10 @@
 from hcsr04 import HCSR04
-try:
-    import machine
-except:
-    import esp32_machine_emulator.machine as machine
+import esp32_machine_emulator.machine as machine
 
 class TestHCSR04:
 
     def test_pulseTimeOf291IsFiveCm(self):
+        machine.resetExpectationsForTesting()
         sensor = HCSR04(trigger_pin=2, echo_pin=15)
         machine.expectedPulseTimeForTesting = 291
 
@@ -14,6 +12,7 @@ class TestHCSR04:
         assert distance == 5
 
     def test_pulseTimeoutErrorHandling(self):
+        machine.resetExpectationsForTesting()
         sensor = HCSR04(trigger_pin=2, echo_pin=15)
         machine.expectedPulseTimeErrorForTesting = OSError(110)
 
