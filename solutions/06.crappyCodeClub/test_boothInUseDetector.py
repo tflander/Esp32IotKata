@@ -34,7 +34,6 @@ class TestBoothAvailability:
 
     def test_boothDetectorCreatesObjectDetector(self, boothInUseDetector):
         assert boothInUseDetector.retriesToChangeState == RETRIES_TO_CHANGE_STATE
-        assert boothInUseDetector.sampleIntervalMs == SAMPLE_INTERVAL_MS
         assert not boothInUseDetector.objectDetector == None
         assert boothInUseDetector.objectDetector.expectedDistanceCm == EXPECTED_DISTANCE_CM
         assert boothInUseDetector.objectDetector.distanceTolerance == DISTANCE_TOLERANCE
@@ -84,6 +83,5 @@ def boothInUseDetector():
         echo_pin = ECHO_PIN, 
         expectedDistanceCm = EXPECTED_DISTANCE_CM, 
         distanceTolerance = DISTANCE_TOLERANCE, 
-        retriesToChangeState = RETRIES_TO_CHANGE_STATE, 
-        sampleIntervalMs = SAMPLE_INTERVAL_MS
+        retriesToChangeState = RETRIES_TO_CHANGE_STATE
     )

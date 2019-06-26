@@ -19,11 +19,11 @@ serverSocket = startListener(addr)
 
 app = picoweb.WebApp(__name__)
 
-boothInUseDetector = BoothInUseDetector(trigger_pin=2, echo_pin=15, expectedDistanceCm=77, distanceTolerance=10, retriesToChangeState=3, sampleIntervalMs=300)
+boothInUseDetector = BoothInUseDetector(trigger_pin=2, echo_pin=15, expectedDistanceCm=77, distanceTolerance=10, retriesToChangeState=3)
 
-distance = -1
-isOccupied = False
-candidateStateChangeCount = 0
+# distance = -1
+# isOccupied = False
+# candidateStateChangeCount = 0
 
 boothInUseLedIndicator = BoothInUseLedIndicator(redLedPin = 21, greenLedPin = 22)
 
@@ -40,12 +40,7 @@ distanceTimer.init(period=1000, mode=machine.Timer.PERIODIC, callback=measureDis
 @app.route("/")
 def index(req, resp):
     yield from picoweb.start_response(resp)
-    yield from resp.awrite("'isOccupied' : " + str(isOccupied))
-
-@app.route("/debug")
-def debug(req, resp):
-    yield from picoweb.start_response(resp)
-    yield from resp.awrite("Distance = {} cm; isOccupied = {}; candidateStateChangeCount = {}".format(str(distance), isOccupied, candidateStateChangeCount))
+    yield from resp.awrite("'isOccupied' : " + str(boothInUseLedIndicator.redLed.value()))
 
 globalReq = None
 globalResp = None
