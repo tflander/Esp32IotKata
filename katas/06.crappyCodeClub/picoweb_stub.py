@@ -1,0 +1,2 @@
+class WebApp:
+    pass

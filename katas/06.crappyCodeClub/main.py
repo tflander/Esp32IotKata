@@ -1,7 +1,15 @@
-import network
+try:
+    import network
+except:
+    import network_stub as network
+    
 import socket
-import machine
-from hcsr04 import HCSR04
+try:
+    import machine
+except:
+    import esp32_machine_emulator.machine as machine
+
+from hcsr04UltrasonicDistanceSensor import Hcsr04UltrasonicDistanceSensor
 
 EXPECTED_DISTANCE_CM = 77
 DISTANCE_TOLERANCE_CM = 10
@@ -37,10 +45,14 @@ serverSocket = startListener(addr)
 greenLed = machine.Pin(22, machine.Pin.OUT)
 redLed = machine.Pin(21, machine.Pin.OUT)
 
-import picoweb
+try:
+    import picoweb
+except:
+    import picoweb_stub as picoweb
+
 app = picoweb.WebApp(__name__)
 
-sensor = HCSR04(trigger_pin=2, echo_pin=15)
+sensor = Hcsr04UltrasonicDistanceSensor(triggerPin=2, echoPin=15)
 
 distance = -1
 isOccupied = False
@@ -50,7 +62,7 @@ def measureDistance(timer):
     global distance, isOccupied, candidateStateChangeCount
     candidateDistance = -1
     while candidateDistance < 0 or candidateDistance > EXPECTED_DISTANCE_CM + DISTANCE_TOLERANCE_CM:
-        candidateDistance = sensor.distance_cm()
+        candidateDistance = sensor.distanceCm()
         # print('retrying...')
 
     distance = candidateDistance
