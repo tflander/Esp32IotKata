@@ -4,7 +4,7 @@ except:
     import esp32_machine_emulator.machine as machine
 
 from hcsr04UltrasonicDistanceSensor import Hcsr04UltrasonicDistanceSensor
-
+from ledRedGreenIndicator import LedRedGreenIndicator
 from boot import apConnect, startListener
 
 # addr, ifconfig = wifiConnect("TheForge", "speed2VALUE!")
@@ -16,8 +16,7 @@ EXPECTED_DISTANCE_CM = 77
 DISTANCE_TOLERANCE_CM = 10
 NUM_READS_TO_CHANGE_STATE = 3
 
-greenLed = machine.Pin(22, machine.Pin.OUT)
-redLed = machine.Pin(21, machine.Pin.OUT)
+ledIndicator = LedRedGreenIndicator(greenLedPin=22, redLedPin=21)
 
 try:
     import picoweb
@@ -57,11 +56,9 @@ def measureDistance(timer):
                 isOccupied = False
 
     if(isOccupied):
-        greenLed.off()
-        redLed.on()
+        ledIndicator.red()
     else:
-        greenLed.on()
-        redLed.off()
+        ledIndicator.green()
 
 distanceTimer = machine.Timer(0)  
 distanceTimer.init(period=1000, mode=machine.Timer.PERIODIC, callback=measureDistance)
