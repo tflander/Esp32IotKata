@@ -8,6 +8,18 @@ try:
     import machine
 except:
     import esp32_machine_emulator.machine as machine
+import neopixel
+pixel = neopixel.NeoPixel(machine.Pin(22), 1, bpp=4)
+
+def showGreen():
+    showColor((0, 32, 0, 0))
+
+def showRed():
+    showColor((32, 0, 0, 0))
+
+def showColor(color):
+    pixel[0] = color
+    pixel.write()
 
 from hcsr04UltrasonicDistanceSensor import Hcsr04UltrasonicDistanceSensor
 
@@ -40,10 +52,8 @@ def startListener(addr):
     return s
 
 # addr, ifconfig = wifiConnect("TheForge", "speed2VALUE!")
-addr, ifconfig = apConnect("Todd Esp32")
+addr, ifconfig = apConnect("Todd Esp32Rev2")
 serverSocket = startListener(addr)
-greenLed = machine.Pin(22, machine.Pin.OUT)
-redLed = machine.Pin(21, machine.Pin.OUT)
 
 try:
     import picoweb
@@ -82,12 +92,12 @@ def measureDistance(timer):
                 candidateStateChangeCount = 0
                 isOccupied = False
 
-    if(isOccupied):
-        greenLed.off()
-        redLed.on()
+    if isOccupied:
+        print("occupied")
+        showRed()
     else:
-        greenLed.on()
-        redLed.off()
+        print("available")
+        showGreen()
 
 distanceTimer = machine.Timer(0)  
 distanceTimer.init(period=1000, mode=machine.Timer.PERIODIC, callback=measureDistance)
